@@ -1,16 +1,20 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class WeaponManager : MonoBehaviour
 {
+    public GameObject WeaponHolder;
+
     public InputActionReference Fire;
     public InputActionReference Reload;
     public InputActionReference NextWeapon;
     public InputActionReference PreviousWeapon;
     public InputActionReference Scroll;
+    public InputActionReference Aiming;
 
-    public List<WeaponController> Weapons;
+    public List<WeaponControllerBase> Weapons;
     private int _currentWeaponIndex = 0;
 
     private void Start()
@@ -22,6 +26,7 @@ public class WeaponManager : MonoBehaviour
     {
         HandleFire();
         HandleReload();
+        HandleAiming();
         WeaponNext();
         WeaponPrevious();
     }
@@ -36,6 +41,18 @@ public class WeaponManager : MonoBehaviour
     {
         if (Reload.action.triggered)
             Weapons[_currentWeaponIndex].Reload();
+    }
+
+    private void HandleAiming()
+    {
+        if (Aiming.action.IsPressed())
+        {
+            WeaponHolderMoveX(0, 0.1f);
+        }
+        else
+        {
+            WeaponHolderMoveX(0.4f, 0.1f);
+        }
     }
 
     private void WeaponNext()
@@ -56,7 +73,7 @@ public class WeaponManager : MonoBehaviour
                 Weapons[i].gameObject.SetActive(i == index);
     }
 
-    void SwitchWeapon(int direction)
+    private void SwitchWeapon(int direction)
     {
         _currentWeaponIndex += direction;
 
@@ -68,4 +85,7 @@ public class WeaponManager : MonoBehaviour
 
         SelectWeapon(_currentWeaponIndex);
     }
+
+    private void WeaponHolderMoveX(float endValue, float duration) => 
+        WeaponHolder.transform.DOLocalMoveX(endValue, duration).SetEase(Ease.Linear);
 }

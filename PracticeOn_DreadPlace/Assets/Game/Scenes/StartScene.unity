@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &25000117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 25000118}
+  m_Layer: 0
+  m_Name: ParentProjectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &25000118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25000117}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &139064272
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +923,7 @@ MonoBehaviour:
   FireRate: 1
   ProjectilePrefab: {fileID: 298537382406993694, guid: 78646ce4b464ac44f91f407855cf8aa5, type: 3}
   FirePoint: {fileID: 1595723671}
+  ParentProjectile: {fileID: 25000118}
   ProjectileSpeed: 20
   MaxAmmo: 8
   CurrentAmmo: 0
@@ -1305,11 +1337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb3b44346b236b6448e37bca3076d460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
+  WeaponHolder: {fileID: 1262793699}
   Fire: {fileID: 2926699073478365116, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   Reload: {fileID: -1463503926752215066, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   NextWeapon: {fileID: 7476244043514120974, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   PreviousWeapon: {fileID: 2411907206095950430, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   Scroll: {fileID: -2836277039862078192, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  Aiming: {fileID: -8218408105532963063, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   Weapons:
   - {fileID: 1323865979}
   - {fileID: 451367482}
@@ -1427,7 +1461,7 @@ Transform:
   m_GameObject: {fileID: 1262793699}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1491,7 +1525,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1530,7 +1564,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -1545,7 +1579,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1583,6 +1617,7 @@ MonoBehaviour:
   FireRate: 0.5
   ProjectilePrefab: {fileID: 298537382406993694, guid: ea9e207029e434e4e95495c645b0170d, type: 3}
   FirePoint: {fileID: 926364974}
+  ParentProjectile: {fileID: 25000118}
   ProjectileSpeed: 30
   MaxAmmo: 30
   CurrentAmmo: 0
@@ -2268,3 +2303,4 @@ SceneRoots:
   - {fileID: 272978441}
   - {fileID: 560082223}
   - {fileID: 647586031}
+  - {fileID: 25000118}
