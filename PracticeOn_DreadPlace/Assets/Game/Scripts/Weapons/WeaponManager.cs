@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class WeaponManager : MonoBehaviour
 {
     public GameObject WeaponHolder;
+    public Camera MainCamera;
+    public Camera WeaponCamera;
 
     public InputActionReference Fire;
     public InputActionReference Reload;
@@ -48,10 +50,14 @@ public class WeaponManager : MonoBehaviour
         if (Aiming.action.IsPressed())
         {
             WeaponHolderMoveX(0, 0.1f);
+
+            ChangeCameraFov(35, 0.2f);
         }
         else
         {
             WeaponHolderMoveX(0.4f, 0.1f);
+
+            ChangeCameraFov(60, 0.2f);
         }
     }
 
@@ -88,4 +94,10 @@ public class WeaponManager : MonoBehaviour
 
     private void WeaponHolderMoveX(float endValue, float duration) => 
         WeaponHolder.transform.DOLocalMoveX(endValue, duration).SetEase(Ease.Linear);
+
+    private void ChangeCameraFov(float endValue, float duration)
+    {
+        MainCamera.DOFieldOfView(endValue, duration).SetEase(Ease.Linear);
+        WeaponCamera.DOFieldOfView(endValue, duration).SetEase(Ease.Linear);
+    }
 }

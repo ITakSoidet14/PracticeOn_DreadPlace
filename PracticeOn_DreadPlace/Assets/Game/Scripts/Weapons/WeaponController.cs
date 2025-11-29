@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -68,6 +69,7 @@ public class WeaponController : WeaponControllerBase
 
     [Header("Projectile")]
     public ProjectileBase ProjectilePrefab;
+    public ParticlePool ParticlePool;
     public Transform FirePoint;
     public Transform ParentProjectile;
     public float ProjectileSpeed = 30f;
@@ -76,6 +78,7 @@ public class WeaponController : WeaponControllerBase
     public int MaxAmmo = 30;
     public int CurrentAmmo;
     public float ReloadTime = 1.5f;
+    public TextMeshProUGUI BulletText;
     private bool _isReloading;
 
     private IObjectPool<ProjectileBase> _projectilePool;
@@ -96,6 +99,7 @@ public class WeaponController : WeaponControllerBase
     private void Start()
     {
         CurrentAmmo = MaxAmmo;
+        BulletText.text = CurrentAmmo.ToString();
     }
 
     private ProjectileBase CreateProjectile()
@@ -137,11 +141,13 @@ public class WeaponController : WeaponControllerBase
     public override void Shoot()
     {
         CurrentAmmo--;
-
+        BulletText.text = CurrentAmmo.ToString();
         ProjectileBase bullet = _projectilePool.Get();
         bullet.transform.position = FirePoint.position;
         bullet.transform.rotation = FirePoint.rotation;
         bullet.Initialize(ProjectileSpeed);
+        bullet.SetParticlePool(ParticlePool);
+        ParticlePool.Spawn("Flash", FirePoint.position, FirePoint.rotation);
     }
 
     public async override void Reload()
@@ -154,6 +160,7 @@ public class WeaponController : WeaponControllerBase
         await Awaitable.WaitForSecondsAsync(ReloadTime);
 
         CurrentAmmo = MaxAmmo;
+        BulletText.text = CurrentAmmo.ToString();
         print("Reloading end");
         _isReloading = false;
     }

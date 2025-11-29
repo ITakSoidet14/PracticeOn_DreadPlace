@@ -36,11 +36,18 @@ public class Projectile : ProjectileBase
 
     public float Lifetime = 3f;
     public int Damage = 25;
+    public TrailRenderer Trail;
 
+    private ParticlePool _particlePool;
     private Vector3 _velocity;
     private float _lifeTimer;
 
     private IObjectPool<ProjectileBase> _pool;
+
+    public override void SetParticlePool(ParticlePool particlePool)
+    {
+        _particlePool = particlePool;
+    }
 
     public override void SetPool(IObjectPool<ProjectileBase> pool)
     {
@@ -70,13 +77,22 @@ public class Projectile : ProjectileBase
     private void OnCollisionEnter(Collision other)
     {
         if (other.collider.TryGetComponent(out Damagable damagable))
+        {
             damagable.TakeDamage(Damage);
+            _particlePool.Spawn("Blood", transform.position, transform.rotation);
+        }
+        else
+        {
+            _particlePool.Spawn("Hit", transform.position, transform.rotation);
+        }
 
         ReturnToPool();
     }
 
     public void ReturnToPool()
     {
+        Trail.Clear();
+
         if (_pool != null)
             _pool.Release(this);
         else
